@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8"></meta>
+        <script src="Stats.js"></script>
+        <script src="rainyEngine.js"></script><br>
+    </head>
+    <body>
+        <canvas id="canvas" height="500" width="500"></canvas>
+        <script src="main.js"></script><br>
+        <input type="button" value="+" onclick="camera.mag*=1.5">
+        <input type="button" value="-" onclick="camera.mag/=1.5">
+        <input type="button" value="↑" onclick="camera.goal.y+=100/camera.mag">
+        <input type="button" value="↓" onclick="camera.goal.y-=100/camera.mag">
+        <input type="button" value="←" onclick="camera.goal.x-=100/camera.mag">
+        <input type="button" value="→" onclick="camera.goal.x+=100/camera.mag">
+        <input type="button" value="undo" onclick="if(game.objects.length!=0 && game.objects.findIndex(o=>o.team=='wall')!=-1){game.objects.reverse().find(o=>o.team=='wall').killed=true;}">
+        <input type="button" value="reset" onclick="reset();">
+        <input type="range" value="1" min="3" max="20" step="1" oninput="rr=this.value">
+        <!--<input type="button" value="random" onclick="game.objects.push(new O_Wall({x:Math.random()*2000-1000,y:Math.random()*2000-1000},{x:Math.random()*2000-1000,y:Math.random()*2000-1000}));">-->
+    </body>
+</html>

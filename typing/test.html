@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+</head>
+<body>
+    <p id="p"></p>
+    <script src="roman.js"></script>
+    <script>
+        let p=document.getElementById("p");
+        document.onkeydown=onkey;
+        
+        function onkey(e){
+	        var atoz="abcdefghijklmnopqrstuvwxyz";
+            let code=e.keyCode;
+            console.log(code);
+            if (code>=65 && code<=90){// a~z
+                var char=atoz.substr(code-65,1);
+                handleInput(char);
+            }else if (code>=48 && code<=57){// 0~9
+                var char=code-48;
+                handleInput(char);
+            }else if (code==173){
+                handleInput("-");
+            }else if (code==8){
+                handleInput("BS");
+            }
+        }
+
+        function handleInput(char){
+            console.log(henkanMati+","+char);
+            if(char=="BS"){
+                if(henkanMati==""){
+                    sumi=sumi.slice(0,-1);
+                }else{
+                    henkanMati=henkanMati.slice(0,-1);
+                }
+                p.innerText=sumi+henkanMati;
+                return;
+            }
+
+            henkanMati+=char;
+            let possible=romanTable.filter(r=>(r[0]).startsWith(henkanMati));
+            let henkan=possible.filter(r=>henkanMati==r[0]);
+            if(possible.length==0){
+                sumi+=henkanMati.slice(0,-1);
+                henkanMati=char;
+            }else if(henkan.length>0){
+                sumi+=henkan[0][1];
+                henkanMati=henkan[0][2];
+            }
+            p.innerText=sumi+henkanMati;
+        }
+
+        let henkanMati="";
+        let sumi="";
+    </script>
+</body>
+</html>

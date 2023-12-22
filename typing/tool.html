@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta NAME="ROBOTS" CONTENT="NOINDEX,NOFOLLOW">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<title>tool</title>
+</head>
+
+<body>
+	左：問題　右：読み（ひらがなとアルファベットのみ）
+	<button onclick="gen();">GO!</button>
+	<div>
+		<textarea cols="50" rows="30" id="q"></textarea>
+		<textarea cols="50" rows="30" id="a"></textarea>
+	</div>
+	<button onclick="gen();">GO!</button>
+	<div id="kekka" style="padding:0.5em ;margin:  1em;background-color: #DDDDDD"></div>
+	<script>
+		function gen() {
+			var q = document.getElementById("q").value;
+			var a = document.getElementById("a").value;
+
+			var moto = padding(q.split("\n"), a.split("\n"))
+			var text = "";
+			for (i = 0; i < moto[0].length; i++)text += '[\'' + escape_html_2(moto[0][i]) + '\',\'' + escape_html_2(moto[1][i]) + '\'],<br>';
+			document.getElementById("kekka").innerHTML = text;
+		}
+
+
+		function padding(a, b) {
+			var lenmax = Math.max(a.length, b.length);
+			if (a.length > b.length) {
+				for (i = b.length; i < a.length; i++)b.push("");
+			} else {
+				for (i = a.length; i < b.length; i++)a.push("");
+			}
+			return [a, b];
+		}
+		function escape_html_2(string) {
+			if (typeof string !== 'string') {
+				return string;
+			}
+			return string.replace(/[&'`"<>]/g, function (match) {
+				return {
+					'&': '&amp;',
+					"'": '&#x27;',
+					'`': '&#x60;',
+					'"': '&quot;',
+					'<': '&lt;',
+					'>': '&gt;',
+					'\'': '\\\'',
+				}[match]
+			});
+		}
+	</script>
+
+</body>
+
+</html>

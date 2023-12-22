@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>時計</title>
+        <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<style>
+            body{
+                width: 500px;
+                font-size: 100%;
+                text-align:center;
+            }
+        </style>
+        <link rel="manifest" href="/manifest.json">
+    </head>
+    <body>
+        <canvas height="300" width="300" id="canvas"></canvas><br>
+        <span id="status" style="font-size:150%"></span><br>
+        <label name="min">いまから:</label>      <input type="number" id="min" name="min"> <input type="button" value="分間" onclick="setGoalMinute(parseInt(document.getElementById('min').value))"><br>
+        <label name="time">いつまで:</label>      <input type="time" id="time" name="time"> <input type="button" value="まで" onclick="setGoalTime(document.getElementById('time').value)"><br>
+        <input id="pause" type="button" value="一時停止" onclick="onPause();" hidden><br>
+        <!--<label name="showHH">時針・秒針を表示:</label> <input type="checkbox" id="showHH" name="showHH" onchange="showHourHand=document.getElementById('showHH').checked;draw();"><br>
+        <label name="showMH">分針を表示:</label>      <input type="checkbox" id="showMH" name="showMH" onchange="showMinuteHand=document.getElementById('showMH').checked;draw();"><br>
+        <label name="showTT">背景に色をつける:</label> <input type="checkbox" id="showTT" name="showTT" onchange="showTimeTimer=document.getElementById('showTT').checked;draw();"><div hidden><label name="useDP">濃色背景:</label> <input type="checkbox" id="useDP" name="useDP" onchange="deepPalette=document.getElementById('useDP').checked;draw();"></div><br>
+        <label name="showKT">蚊取り線香を表示:</label> <input type="checkbox" id="showKT" name="showKT" onchange="showKatori=document.getElementById('showKT').checked;draw();"><br-->
+        <script src="main.js"></script>
+
+    </body>
+</html>
