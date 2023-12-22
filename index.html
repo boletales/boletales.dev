@@ -3,58 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>boletales.dev</title>
   <style>
-    html {
-      height: 100%
-    }
-    body {
-      background-image: url(bg3.jpg);
-      background-size: cover;
-      background-attachment: fixed;
-    }
-    #content{
-      background-color: #fffd;
-      color: #000033;
-      margin : 40px;
-      padding: 40px;
-    }
-</style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Japanese&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Japanese&display=swap');
+  </style> 
+  <link rel="stylesheet" href="./style.css">
+  <title>boletales.dev</title>
 </head>
 <body>
-  <div id="content">
+  <div id="whitebox">
+    <div id="content">
     <h1>boletales.dev</h1>
 
-    <h2>だれ？</h2>
+    <h2>これはなに？</h2>
     <ul>
-      <li>GitHub: <a href="https://github.com/boletales">https://github.com/boletales</a></li>
+      <li><a href="https://github.com/boletales">https://github.com/boletales</a> の自己紹介</li>
       <li>趣味でコードを書いています</li>
       <li>クロスバイクと関数型プログラミングがすき</li>
       <br>
-      <li>だいすき：Haskell, purescript</li>
-      <li>たくさんかいた：素JS</li>
+      <li>だいすき　　　　：Haskell, purescript</li>
+      <li>たくさんかいた　：素JS</li>
       <li>さわったことある：Rust, PHP, Java, C#, VB.net, Python, Kotlin, C</li>
       <br>
-      <li>つくりがち：スタンドアロンツール・Webサービス・使途不明の習作</li>
+      <li>つくりがち　　　：スタンドアロンツール・Webサービス・使途不明の習作</li>
       <li>つくったことある：arduino製加速度計・androidアプリ・Minecraftのmod</li>
       </li>
     </ul>
 
-    <h2>つくったもの・つくっているもの</h2>
-      <h3>某社の青い鉄道玩具がオンラインで遊べる　<a href="https://prail.boletales.dev/online/test">プラ線路シミュレーター</a></h3>
+    <h2>つくったもの</h2>
+      <div class="project">
+      <h3>某社の鉄道玩具がオンラインで遊べる　<a href="https://prail.boletales.dev/online/test">プラ線路シミュレーター</a></h3>
         <img src="./prail.png">
         <ul>
           <li>repo: <a href="https://github.com/boletales/prail-simulator">https://github.com/boletales/prail-simulator</a> </li>
           <li>幼稚園児の永遠の夢！後片付けのいらない世界で好き勝手線路を敷こう！</li>
+          <li>マルチプレイ対応！おともだちとの建設計画の不一致に苦しもう！</li>
           <li>自動列車停止装置（ATS-P）もどき搭載でなめらかな自動運転！</li>
           <li>「列車タグ」機能で複数路線も快速運転も自由自在！</li>
           <li>ただし連動装置（ポイントの切り替えをロックする機構）は実装していないため、まれによく大惨事が起こる</li>
-          <li>「天通団」という、プラレールで現実の路線を表現してダイヤ通りに運転するサークルの動画に触発され、部屋にレールを置くスペースはなかったのでスクリプトを書いた</li>
-          <li>「内側」（列車やレールの管理）はpurescriptで、「外側」（操作や描画）は素JSで書いた</li>
+          <li>プラレールで現実の路線を表現してダイヤ通りに運転するサークル「天通団」の動画に触発されたが、部屋にレールを置くスペースはなかったのでスクリプトを書いた</li>
+          <li>列車やレールの管理はpurescriptで、操作や描画は素JSで実装した</li>
           <li>車両の3DモデルだけはBlenderを使ってまじめに作ったが、線路その他のポリゴンはコード直書きで生成している</li>
         </ul>
+      </div>
       
-      <h3>（制作中）嘘のコンパイラ　<a href="https://github.com/boletales/usocomp">usocomp</a></h3>
+      <div class="project">
+        <h3>（制作中）嘘のコンパイラ　<a href="https://github.com/boletales/usocomp">usocomp</a></h3>
         <img src="./usocomp_debugger.png">
         <ul>
           <li>repo: <a href="https://github.com/boletales/usocomp"> https://github.com/boletales/usocomp</a> </li>
@@ -63,19 +57,23 @@
           <li>書けば書くほどC言語に似てくるのはどうして……</li>
           <li>minus-at0-at0-1の実質的な続編</li>
         </ul>
+      </div>
       
-      <h3>記号でできた謎のアセンブリ　<a href="https://minus-at0-at0-1.netlify.app">minus-at0-at0-1</a></h3>
+      <div class="project">
+        <h3>記号でできた謎のアセンブリ　<a href="https://minus-at0-at0-1.netlify.app">minus-at0-at0-1</a></h3>
         <img src="./symasm.png">
         <ul>
           <li>repo: <a href="https://github.com/boletales/symasm">https://github.com/boletales/symasm</a> </li>
           <li>表題のリンクはコードテストと提出がオンラインでできるサイト</li>
-          <li>制作者の素性を伏せ、わずかなヒントを除いてほとんど言語仕様に関する情報を与えずに友人たちにばらまいたところ、一人だけ解いてくれて感動した</li>
+          <li>制作者の素性を伏せ、わずかなヒント以外ほとんど言語仕様に関する情報を与えずに友人たちにばらまいたところ、一人だけ本気で解いてくれて感動した</li>
           <li>リポジトリは解答例を書くためのアセンブリ生成器のものである</li>
           <li>動的計画法まで出題するつもりだったので、ヒープとスタックを持ち関数を取り扱えてまともに手続き型プログラミングができるようになるDSLをpurescriptで書いた</li>
           <li>制作期間のほとんどはアセンブリ生成器の実装に費やした</li>
         </ul>
+      </div>
       
-      <h3>分水嶺が見える地図　<a href="https://suikei-rs.fly.dev/">suikei-rs</a></h3>
+      <div class="project">
+        <h3>分水嶺が見える地図　<a href="https://suikei-rs.fly.dev/">suikei-rs</a></h3>
         <img src="./suikei-rs.png">
         <ul>
           <li>repo: <a href="https://github.com/boletales/suikei-rs">https://github.com/boletales/suikei-rs</a> </li>
@@ -83,8 +81,10 @@
           <li>降った雨の行く先を色分けして表示できる</li>
           <li>Rustの練習としてつくった</li>
         </ul>
+      </div>
       
-      <h3>記号論理学のレポート粉砕機　<a href="https://boletales.github.io/treeparser/">インタラクティブ証明木エディタ</a></h3>
+      <div class="project">
+        <h3>記号論理学のレポート粉砕機　<a href="https://boletales.github.io/treeparser/">インタラクティブ証明木エディタ</a></h3>
         <img src="./pte4.png"><br>
         <img src="./pte5.png">
         <ul>
@@ -94,8 +94,10 @@
           <li>これ絶対記号論理学を履修する前に作るべきだったと思う</li>
           <li>だいたいpurescriptでつくってたはず</li>
         </ul>
+      </div>
       
-      <h3>直観主義命題論理の自動証明器　<a href="https://github.com/boletales/ipc-hs">ipc-hs</a></h3>
+      <div class="project">
+        <h3>直観主義命題論理の自動証明器　<a href="https://github.com/boletales/ipc-hs">ipc-hs</a></h3>
         <img src="./ipc-hs.png">
         <ul>
           <li>repo: <a href="https://github.com/boletales/ipc-hs"> https://github.com/boletales/ipc-hs</a> </li>
@@ -104,6 +106,8 @@
           <li>パフォーマンスの改善に最も有効なのは、アルゴリズムの改善である（あたりまえ）</li>
           <li>SPECIALIZEプラグマとmtl-style最高！</li>
         </ul>
-  </body>
+      </div>
+    </body>
   </div>
+</div>
 </html>

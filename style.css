@@ -1,0 +1,56 @@
+
+html {
+  height: 100%;
+  font-family: 'Noto Serif Japanese', serif;
+}
+
+h1 {
+  font-family: 'Noto Sans Japanese', sans-serif;
+}
+
+h2 {
+  font-family: 'Noto Sans Japanese', sans-serif;
+}
+
+h3 {
+  font-family: 'Noto Sans Japanese', sans-serif;
+}
+
+body {
+  background-image: url(bg3.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+#whitebox{
+  background-color: #fffd;
+  margin : 2.5rem auto;
+  padding : 3rem 0;
+  width: 90vw;
+  color: #000033;
+}
+
+#content {
+  width: 75vw;
+  margin: 0 auto;
+}
+
+img {
+  width: 80%;
+  display: block;
+  margin: 0 auto;
+}
+
+ul {
+  padding: 0 0 0 1rem;
+  list-style-position: inside;
+  list-style-type: disc;
+}
+
+li {
+  margin: 0.5rem 0;
+}
+
+.project {
+  margin: 0 0 2.5rem 0;
+}
