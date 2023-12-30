@@ -43,6 +43,10 @@
         let context = new window.AudioContext();
         let buffers = {};
 
+        let gainNode = context.createGain();
+        gainNode.gain.value = 0.5;
+        gainNode.connect(context.destination);
+
         function loadAudio(name,url){
             let xhr = new XMLHttpRequest();
             xhr.open("GET",url);
@@ -59,7 +63,7 @@
             if(name in buffers){
                 let source = context.createBufferSource();
                 source.buffer = buffers[name];
-                source.connect(context.destination);
+                source.connect(gainNode);
                 source.start();
             }
         }
@@ -79,7 +83,7 @@
 
         loadAudio("miss","./miss4.mp3");
         loadAudio("next","./page.mp3");
-        loadAudio("type","./type6.mp3");
+        loadAudio("type","./type5.mp3");
 
         let countInput =[0];//全打鍵数記録
         let countRight =[0];//正打鍵数記録
