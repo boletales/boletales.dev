@@ -14,6 +14,9 @@
         .b{
             color: #aaa;
         }
+        .m{
+            color: #e66;
+        }
         #contents{
             text-align: center;
             font-size: 300%;
@@ -27,8 +30,8 @@
 <body>
     <div id="contents">
         <p id="kanji"></p>
-        <p id="kana"><span id="kana_a" class="a"></span><span id="kana_b" class="b"></span></p>
-        <p id="roman"><span id="roman_a" class="a"></span><span id="roman_b" class="b"></span></p>
+        <p id="kana"><span id="kana_a" class="a"></span><span id="kana_m" class="m"></span><span id="kana_b" class="b"></span></p>
+        <p id="roman"><span id="roman_a" class="a"></span><span id="roman_m" class="m"></span><span id="roman_b" class="b"></span></p>
         <!--button onclick="switchShowingData()">▼データ表示切り替え▼</button-->
         <div id="datas">
             <br>
@@ -77,20 +80,24 @@
         var domKanji=document.getElementById("kanji");
         var domKanaA=document.getElementById("kana_a");
         var domKanaB=document.getElementById("kana_b");
+        var domKanaM=document.getElementById("kana_m");
         var domRomanA=document.getElementById("roman_a");
         var domRomanB=document.getElementById("roman_b");
+        var domRomanM=document.getElementById("roman_m");
         let domData0=document.getElementById("data0");
 
-        loadAudio("miss","./miss4.mp3");
-        loadAudio("next","./page.mp3");
-        loadAudio("type","./type5.mp3");
+        loadAudio("miss","./miss5.mp3");
+        loadAudio("next","./page2.mp3");
+        loadAudio("type","./type7.mp3");
 
         let countInput =[0];//全打鍵数記録
         let countRight =[0];//正打鍵数記録
         let countTime  =[];//時間記録
         let timeStart;//今の単語の入力開始時
+        let showMiss=false;
 
         function whendone(){
+            showMiss = false;
             countTime.unshift((new Date()).getTime()-timeStart);
             timeStart=(new Date()).getTime();
             if(countTime.length>history)countTime.pop();
@@ -103,22 +110,36 @@
         }
 
         function whenright(){
+            showMiss = false;
             playAudio("type");
             if(countRight[0]==0)timeStart=(new Date()).getTime();
             countInput[0]++;
             countRight[0]++;
         }
         function whenwrong(){
+            showMiss = true;
             countInput[0]++;
             playAudio("miss");
         }
 
         function refresh(){
             domKanji.innerText=goalKanji;
-            domKanaA.innerText=kana;
-            domKanaB.innerText=goal.slice(kana.length);
-            domRomanA.innerText=romans;
-            domRomanB.innerText=getYosoku();
+            if(showMiss){
+                domKanaA.innerText=kana;
+                domKanaM.innerText=goal.slice(kana.length,kana.length+1);
+                domKanaB.innerText=goal.slice(kana.length+1);
+                domRomanA.innerText=romans;
+                let ystr = getYosoku();
+                domRomanM.innerText = ystr.slice(0,1);
+                domRomanB.innerText = ystr.slice(1);
+            }else{
+                domKanaA.innerText=kana;
+                domKanaM.innerText ="";
+                domKanaB.innerText=goal.slice(kana.length);
+                domRomanA.innerText=romans;
+                domRomanM.innerText ="";
+                domRomanB.innerText=getYosoku()
+            }
             showData();
         }
 
