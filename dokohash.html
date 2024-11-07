@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>場所当て出題くん</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/js-md5@0.8.3/build/md5.min.js"></script>
+    <style>
+        #map { height: 700px; }
+    </style>
+</head>
+<body>
+    <h3 id="title"></h3>
+    <div id="map"></div>
+
+    <p id="info"></p>
+
+    <div>
+      <div id="questioninfo">
+        許容する誤差<input type="number" id="size" value="100"> m <br>
+        問題のリンク：<a id="link"></a>
+      </div>
+      <div id="answerinfo">
+        許容される誤差：<span id="sizeinfo"></span><br>
+        <button onclick="submitAnswer()" id="submit">ここだ！</button><br><br>
+        問題をつくる：<a href="dokohash.html">こちら</a>
+      </div>
+    </div>
+
+    <script>
+      const EarthRadius = 6378137;
+
+      function latspanToSize(latspan){
+        return EarthRadius * 2 * Math.PI * latspan / 360;
+      }
+
+      function gridsizeToLatspan(gridsize){
+        return gridsize / (EarthRadius * 2 * Math.PI) * 360;
+      }
+
+      function gridsizeToLongspan(gridsize, lat){
+        return gridsizeToLatspan(gridsize) / Math.cos(lat * Math.PI / 180);
+      }
+
+      function latClassToLat(latclass, offset, gridsize){
+        let latspan = gridsizeToLatspan(size);
+        return offset + latclass * latspan;
+      }
+
+      function classifyLatLong(lat, long, latoffset, longoffset, size){
+        let gridsize = size * 2;
+
+        let latspan = gridsizeToLatspan(gridsize);
+        let latclass = Math.floor((lat - latoffset) / latspan + 0.5);
+        let latcenter = latoffset + latclass * latspan;
+
+        let longspan = gridsizeToLongspan(gridsize, latcenter);
+        let longclass = Math.floor((long - longoffset) / longspan + 0.5);
+        let longcenter = longoffset + longclass * longspan;
+        return {latclass, longclass};
+      }
+
+      function getGrid(lat, long, size){
+        let gridsize = size * 2;
+
+        let latspan = gridsizeToLatspan(gridsize);
+        let latclass = Math.floor(lat / latspan + 0.5);
+        let latoffset = lat - latclass * latspan;
+
+        let longspan = gridsizeToLongspan(gridsize, lat);
+        let longclass = Math.floor(long / longspan + 0.5);
+        let longoffset = long - longclass * longspan;
+
+        return {latclass, longclass, latoffset, longoffset};
+      }
+
+      function bitreverse8(n){
+        let r = 0;
+        for(let i = 0; i < 8; i++){
+          r = (r << 1) | (n & 1);
+          n >>= 1;
+        }
+        return r;
+      }
+
+      function ifNaNDefault(value, defaultValue){
+        return isNaN(value) ? defaultValue : value;
+      }
+      
+      const params = new URLSearchParams(window.location.search);
+      const {
+          hash: classhash,
+          latoffset: _latoffset,
+          longoffset: _longoffset,
+          size: _size,
+        } = Object.fromEntries(params.entries());
+
+      document.getElementById("questioninfo").style.display = "block";
+      document.getElementById("answerinfo").style.display   = "none";
+      let answerMode = (classhash && _latoffset && _longoffset && _size);
+      if(answerMode){
+        document.getElementById("title").innerHTML = "解答モード";
+        document.getElementById("questioninfo").style.display = "none";
+        document.getElementById("answerinfo").style.display   = "block";
+        document.getElementById("sizeinfo").innerHTML = _size + "m";
+      }
+
+      const latoffset  = ifNaNDefault(parseFloat(_latoffset) , 0);
+      const longoffset = ifNaNDefault(parseFloat(_longoffset), 0);
+      let   size       = ifNaNDefault(parseFloat(_size)      , 100);
+
+      document.getElementById("size").value = size;
+
+      document.getElementById("submit").disabled = true;
+      document.getElementById("size").onchange = function(){
+        size = parseFloat(document.getElementById("size").value);
+      };
+
+      let selectedPos = {
+        selected: false,
+        lat : 0,
+        long: 0,
+      };
+
+
+      // マップの初期設定
+      let map = L.map('map').setView([35.6895, 139.6917], 13); // 初期位置を東京に設定
+
+      let selectionMarker =  L.marker([0, 0]).addTo(map);
+
+      // OpenStreetMapタイルレイヤーを追加
+      let osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+
+      let aerialLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+      });
+
+      // マップに標準レイヤーを追加
+      osmLayer.addTo(map);
+
+      // レイヤーコントロールを追加して、標準レイヤーと航空写真レイヤーを切り替え可能にする
+      let baseLayers = {
+          "Street View": osmLayer,
+          "Aerial View": aerialLayer
+      };
+
+      L.control.layers(baseLayers).addTo(map);
+
+      // マップをクリックして緯度・経度を取得する
+      function onMapClick(e) {
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+        let {latclass, longclass, latdiff, longdiff} = classifyLatLong(lat, lng, latoffset, longoffset, 100);
+        //document.getElementById("coords").innerHTML = "Latitude: " + lat + ", Longitude: " + lng + ", latclass: " + latclass + ", longclass: " + longclass;
+
+        selectionMarker.setLatLng([lat, lng]);
+        
+        /*
+        // debug
+        // color: #ffxxyy, where x: latclass%16 * 16, y: longclass%16 * 16
+        L.marker([lat, lng], {
+            icon: L.divIcon({
+                className: 'custom-div-icon',
+                html: '<div style="background-color: #01' + bitreverse8(latclass % 255).toString(16) + bitreverse8(longclass % 255).toString(16) + '; color: #000000; font-size: 5pt; font-weight: bold;">' + latclass + ', ' + longclass + '</div>',
+                iconSize: [10, 10],
+                iconAnchor: [10, 10]
+            })
+        }).addTo(map);
+        */
+
+
+        selectedPos.selected = true;
+        selectedPos.lat = lat;
+        selectedPos.long = lng;
+
+        document.getElementById("submit").disabled = false;
+        if(!answerMode){
+          submitQuestion();
+        }
+      }
+
+      function submit(){
+        if(answerMode){
+          submitAnswer();
+        }else{
+          submitQuestion();
+        }
+      }
+
+      function getClassHash(latclass, longclass){
+        let str = latclass.toString(16) + "_" + longclass.toString(16);
+
+        return md5(str);
+      }
+
+      function submitQuestion(){
+        let {latclass, longclass, latoffset, longoffset} = getGrid(selectedPos.lat, selectedPos.long, size);
+        let classhash = getClassHash(latclass, longclass);
+        let url = location.href.split('?')[0] + "?hash=" + classhash + "&latoffset=" + latoffset.toFixed(6) + "&longoffset=" + longoffset.toFixed(6) + "&size=" + size;
+        document.getElementById("link").href = url;
+        document.getElementById("link").innerHTML = url;
+        //document.getElementById("link").style.display = "block";
+      }
+
+      function submitAnswer(){
+        let {latclass, longclass} = classifyLatLong(selectedPos.lat, selectedPos.long, latoffset, longoffset, size);
+        let answerhash = getClassHash(latclass, longclass);
+        if(classhash == answerhash){
+          alert("🎉正解！🎉");
+        }else{
+          alert("不正解……");
+        }
+      }
+
+      // クリックイベントリスナーを追加
+      map.on('click', onMapClick);
+    </script>
+</body>
+</html>
