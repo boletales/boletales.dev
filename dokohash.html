@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>場所当て出題くん</title>
+    <title>場所当てを出題/解答する</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/js-md5@0.8.3/build/md5.min.js"></script>
@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <h3 id="title"></h3>
+    <h3 id="title">場所当てを出題/解答する</h3>
     <div id="map"></div>
 
     <p id="info"></p>
@@ -97,6 +97,7 @@
 
       document.getElementById("questioninfo").style.display = "block";
       document.getElementById("answerinfo").style.display   = "none";
+        document.getElementById("title").innerHTML          = "出題モード";
       let answerMode = (classhash && _latoffset && _longoffset && _size);
       if(answerMode){
         document.getElementById("title").innerHTML = "解答モード";
