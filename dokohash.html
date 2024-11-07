@@ -127,6 +127,7 @@
       let map = L.map('map').setView([35.6895, 139.6917], 13); // 初期位置を東京に設定
 
       let selectionMarker =  L.marker([0, 0]).addTo(map);
+      let selectionRect  = L.rectangle([[0, 0], [0, 0]], {color: "#00ffff", weight: 1}).addTo(map);
 
       // OpenStreetMapタイルレイヤーを追加
       let osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -177,6 +178,10 @@
 
         document.getElementById("submit").disabled = false;
         if(!answerMode){
+          let latspan  = gridsizeToLatspan(size);
+          let longspan = gridsizeToLongspan(size, lat);
+          selectionRect.setBounds([[lat - latspan/2, lng - longspan/2], [lat + latspan/2, lng + longspan/2]]);
+
           submitQuestion();
         }
       }
