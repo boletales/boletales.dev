@@ -114,6 +114,7 @@
       document.getElementById("submit").disabled = true;
       document.getElementById("size").onchange = function(){
         size = parseFloat(document.getElementById("size").value);
+        refresh();
       };
 
       let selectedPos = {
@@ -127,7 +128,7 @@
       let map = L.map('map').setView([35.6895, 139.6917], 13); // 初期位置を東京に設定
 
       let selectionMarker =  L.marker([0, 0]).addTo(map);
-      let selectionRect  = L.rectangle([[0, 0], [0, 0]], {color: "#00ffff", weight: 1}).addTo(map);
+      let selectionRect  = L.rectangle([[0, 0], [0, 0]], {color: "#00ffff88", weight: 1}).addTo(map);
 
       // OpenStreetMapタイルレイヤーを追加
       let osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -153,11 +154,37 @@
       function onMapClick(e) {
         let lat = e.latlng.lat;
         let lng = e.latlng.lng;
+
+        selectedPos.selected = true;
+        selectedPos.lat = lat;
+        selectedPos.long = lng;
+        
+        refresh();
+      }
+
+      function refresh(){
+        if(!selectedPos.selected){
+          return;
+        }
+
+        let lat = selectedPos.lat;
+        let lng = selectedPos.long;
+
         let {latclass, longclass, latdiff, longdiff} = classifyLatLong(lat, lng, latoffset, longoffset, 100);
         //document.getElementById("coords").innerHTML = "Latitude: " + lat + ", Longitude: " + lng + ", latclass: " + latclass + ", longclass: " + longclass;
 
         selectionMarker.setLatLng([lat, lng]);
-        
+
+        let latspan  = gridsizeToLatspan(size);
+        let longspan = gridsizeToLongspan(size, lat);
+        selectionRect.setBounds([[lat - latspan/2, lng - longspan/2], [lat + latspan/2, lng + longspan/2]]);
+
+        document.getElementById("submit").disabled = false;
+        if(!answerMode){
+
+          submitQuestion();
+        }
+                
         /*
         // debug
         // color: #ffxxyy, where x: latclass%16 * 16, y: longclass%16 * 16
@@ -170,20 +197,6 @@
             })
         }).addTo(map);
         */
-
-
-        selectedPos.selected = true;
-        selectedPos.lat = lat;
-        selectedPos.long = lng;
-
-        document.getElementById("submit").disabled = false;
-        if(!answerMode){
-          let latspan  = gridsizeToLatspan(size);
-          let longspan = gridsizeToLongspan(size, lat);
-          selectionRect.setBounds([[lat - latspan/2, lng - longspan/2], [lat + latspan/2, lng + longspan/2]]);
-
-          submitQuestion();
-        }
       }
 
       function submit(){
