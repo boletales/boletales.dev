@@ -93,6 +93,7 @@
           latoffset: _latoffset,
           longoffset: _longoffset,
           size: _size,
+          salt: salt,
         } = Object.fromEntries(params.entries());
 
       document.getElementById("questioninfo").style.display = "block";
@@ -208,16 +209,25 @@
         }
       }
 
-      function getClassHash(latclass, longclass){
-        let str = latclass.toString(16) + "_" + longclass.toString(16);
+      function generateNewSalt(){
+        const c = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        return Array(12).fill(null).map(() => c[Math.floor(Math.random() * c.length)]).join("");
+      }
 
-        return md5(str);
+      function getClassHash(latclass, longclass, salt){
+        let str = latclass.toString(16) + "_" + longclass.toString(16);
+        if(salt === undefined || salt === ""){
+          return md5(str);
+        }else{
+          return md5(str + "_" + salt);
+        }
       }
 
       function submitQuestion(){
         let {latclass, longclass, latoffset, longoffset} = getGrid(selectedPos.lat, selectedPos.long, size);
-        let classhash = getClassHash(latclass, longclass);
-        let url = location.href.split('?')[0] + "?hash=" + classhash + "&latoffset=" + latoffset.toFixed(6) + "&longoffset=" + longoffset.toFixed(6) + "&size=" + size;
+        let newsalt = generateNewSalt();
+        let classhash = getClassHash(latclass, longclass, newsalt);
+        let url = location.href.split('?')[0] + "?hash=" + classhash + "&salt=" + newsalt + "&latoffset=" + latoffset.toFixed(6) + "&longoffset=" + longoffset.toFixed(6) + "&size=" + size;
         document.getElementById("link").href = url;
         document.getElementById("link").innerHTML = url;
         //document.getElementById("link").style.display = "block";
@@ -225,7 +235,7 @@
 
       function submitAnswer(){
         let {latclass, longclass} = classifyLatLong(selectedPos.lat, selectedPos.long, latoffset, longoffset, size);
-        let answerhash = getClassHash(latclass, longclass);
+        let answerhash = getClassHash(latclass, longclass, salt);
         if(classhash == answerhash){
           alert("🎉正解！🎉");
         }else{
