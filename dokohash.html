@@ -178,7 +178,7 @@
 
         let latspan  = gridsizeToLatspan(size);
         let longspan = gridsizeToLongspan(size, lat);
-        selectionRect.setBounds([[lat - latspan/2, lng - longspan/2], [lat + latspan/2, lng + longspan/2]]);
+        selectionRect.setBounds([[lat - latspan, lng - longspan], [lat + latspan, lng + longspan]]);
 
         document.getElementById("submit").disabled = false;
         if(!answerMode){
