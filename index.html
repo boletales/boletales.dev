@@ -15,14 +15,14 @@
     <div id="content">
     <h1>boletales.dev</h1>
 
-    <h2>これはなに？</h2>
+    <h2>自己紹介</h2>
     <ul>
-      <li><a href="https://github.com/boletales">https://github.com/boletales</a> の自己紹介</li>
+      <li>GitHub: <a href="https://github.com/boletales">https://github.com/boletales</a></li>
       <li>趣味でコードを書いています</li>
-      <li>クロスバイクと関数型プログラミングがすき</li>
+      <li>山道と関数型プログラミングがすき</li>
       <br>
       <li>だいすき　　　　：Haskell, purescript</li>
-      <li>たくさんかいた　：素JS</li>
+      <li>たくさんかいた　：JS</li>
       <li>さわったことある：Rust, PHP, Java, C#, VB.net, Python, Kotlin, C</li>
       <br>
       <li>つくりがち　　　：スタンドアロンツール・Webサービス・使途不明の習作</li>
@@ -48,27 +48,14 @@
       </div>
       
       <div class="project">
-        <h3>（制作中）嘘のコンパイラ　<a href="https://github.com/boletales/usocomp">usocomp</a></h3>
-        <img src="./usocomp_debugger.png">
+        <h3>ブラウザで動く！学習用コンパイラ　<a href="https://boletales.github.io/usocomp/">usocomp</a></h3>
+        <img src="./usocomp_wasm.png">
         <ul>
           <li>repo: <a href="https://github.com/boletales/usocomp"> https://github.com/boletales/usocomp</a> </li>
-          <li>CASL風のアセンブリを吐く手続き型言語のコンパイラと、（制作中）その手続き型言語を吐く関数型言語のコンパイラ</li>
-          <li>手続き型言語の方は構造体とか関数ポインタまで実装できた</li>
-          <li>書けば書くほどC言語に似てくるのはどうして……</li>
-          <li>minus-at0-at0-1の実質的な続編</li>
-        </ul>
-      </div>
-      
-      <div class="project">
-        <h3>記号でできた謎のアセンブリ　<a href="https://minus-at0-at0-1.netlify.app">minus-at0-at0-1</a></h3>
-        <img src="./symasm.png">
-        <ul>
-          <li>repo: <a href="https://github.com/boletales/symasm_public">https://github.com/boletales/symasm_public</a> </li>
-          <li>表題のリンクはコードテストと提出がオンラインでできるサイト</li>
-          <li>制作者の素性を伏せ、わずかなヒント以外ほとんど言語仕様に関する情報を与えずに友人たちにばらまいたところ、一人だけ本気で解いてくれて感動した</li>
-          <li>リポジトリは解答例を書くためのアセンブリ生成器のものである</li>
-          <li>動的計画法まで出題するつもりだったので、ヒープとスタックを持ち関数を取り扱えてまともに手続き型プログラミングができるようになるDSLをpurescriptで書いた</li>
-          <li>制作期間のほとんどはアセンブリ生成器の実装に費やした</li>
+          <li>CASL風のアセンブリを吐く手続き型言語のコンパイラ</li>
+          <li>構造体・関数ポインタまで実装できた（開発が進むにつれ仕様がC言語に似てくるのはなぜ？）</li>
+          <li>ゆくゆくはその手続き型言語を吐く関数型言語のコンパイラも開発したい</li>
+          <li>GHC 9.10 で Wasm Backend の JavaScript FFI が使えるようになったのでブラウザに移植した</li>
         </ul>
       </div>
       
@@ -79,12 +66,21 @@
           <li>repo: <a href="https://github.com/boletales/suikei-rs">https://github.com/boletales/suikei-rs</a> </li>
           <li>自転車で山へ行くのが趣味なので、峠の正確な位置を知りたかった</li>
           <li>降った雨の行く先を色分けして表示できる</li>
-          <li>Rustの練習としてつくった</li>
         </ul>
       </div>
       
       <div class="project">
-        <h3>記号論理学のレポート粉砕機　<a href="https://boletales.github.io/treeparser/">インタラクティブ証明木エディタ</a></h3>
+        <h3>場所を明かさずに場所当てを出題　<a href="./dokohash.html">dokohash</a></h3>
+        <img src="./dokohash.png">
+        <ul>
+          <li>URLを見ても答えのわからない場所当て答え合わせツール</li>
+          <li>地球上に200mグリッドを作り、入ったマスの名前をハッシュ化。ただし、指定地点がマスの中心に来るようオフセットする。</li>
+          <li>例題：「夜の底が白くなった。<a href="https://boletales.dev/dokohash.html?hash=1e9fb69641d5f6c80336ff490c0acd07&salt=TszD8apJcwGL&latoffset=0.000560&longoffset=-0.001055&size=100">信号所</a>に汽車が止まった。」</li>
+        </ul>
+      </div>
+
+      <div class="project">
+        <h3>記号論理学の証明木を書くやつ　<a href="https://boletales.github.io/treeparser/">インタラクティブ証明木エディタ</a></h3>
         <img src="./pte4.png"><br>
         <img src="./pte5.png">
         <ul>
@@ -93,6 +89,19 @@
           <li>LaTeX出力対応</li>
           <li>これ絶対記号論理学を履修する前に作るべきだったと思う</li>
           <li>だいたいpurescriptでつくってたはず</li>
+        </ul>
+      </div>
+
+      <div class="project">
+        <h3>記号でできた謎のアセンブリ　<a href="https://minus-at0-at0-1.netlify.app">minus-at0-at0-1</a></h3>
+        <img src="./symasm.png">
+        <ul>
+          <li>repo: <a href="https://github.com/boletales/symasm_public">https://github.com/boletales/symasm_public</a> </li>
+          <li>表題のリンクはコードテストと提出がオンラインでできるサイト</li>
+          <li>制作者の素性を伏せ、わずかなヒント以外ほとんど言語仕様に関する情報を与えずに友人たちにばらまいたところ、一人だけ本気で解いてくれて感動した</li>
+          <li>リポジトリは解答例を書くためのアセンブリ生成器のものである</li>
+          <li>動的計画法まで出題するつもりだったので、ヒープとスタックを持ち関数を取り扱えてまともに手続き型プログラミングができるようになるDSLをpurescriptで書いた</li>
+          <li>制作期間のほとんどはアセンブリ生成器の実装に費やした</li>
         </ul>
       </div>
       
