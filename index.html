@@ -20,13 +20,10 @@
       <li>GitHub: <a href="https://github.com/boletales">https://github.com/boletales</a></li>
       <li>趣味でコードを書いています</li>
       <li>山道と関数型プログラミングがすき</li>
-      <br>
       <li>だいすき　　　　：Haskell, purescript</li>
       <li>たくさんかいた　：JS</li>
       <li>さわったことある：Rust, PHP, Java, C#, VB.net, Python, Kotlin, C</li>
-      <br>
-      <li>つくりがち　　　：スタンドアロンツール・Webサービス・使途不明の習作</li>
-      <li>つくったことある：arduino製加速度計・androidアプリ・Minecraftのmod</li>
+      <li>制作物（下記にないもの）：arduino製加速度計・androidアプリ・Minecraftのmod</li>
       </li>
     </ul>
 
@@ -35,7 +32,6 @@
       <h3>某社の鉄道玩具がオンラインで遊べる　<a href="https://prail.boletales.dev/online/test">プラ線路シミュレーター</a></h3>
         <img src="./prail.png">
         <ul>
-          <li>repo: <a href="https://github.com/boletales/prail-simulator">https://github.com/boletales/prail-simulator</a> </li>
           <li>幼稚園児の永遠の夢！後片付けのいらない世界で好き勝手線路を敷こう！</li>
           <li>マルチプレイ対応！おともだちとの建設計画の不一致に苦しもう！</li>
           <li>自動列車停止装置（ATS-P）もどき搭載でなめらかな自動運転！</li>
@@ -44,6 +40,15 @@
           <li>プラレールで現実の路線を表現してダイヤ通りに運転するサークル「天通団」の動画に触発されたが、部屋にレールを置くスペースはなかったのでスクリプトを書いた</li>
           <li>列車やレールの管理はpurescriptで、操作や描画は素JSで実装した</li>
           <li>車両の3DモデルだけはBlenderを使ってまじめに作ったが、線路その他のポリゴンはコード直書きで生成している</li>
+          <li>repo: <a href="https://github.com/boletales/prail-simulator">https://github.com/boletales/prail-simulator</a> </li>
+          <li>技術要素：
+            <ul>
+              <li>描画：JS (Three.js)</li>
+              <li>内部の処理：PureScript</li>
+              <li>サーバー側コード：node (Express.js + Socket.IO)</li>
+              <li>オンライン版実行環境：<a href="https://fly.io">fly.io</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
       
@@ -51,11 +56,17 @@
         <h3>ブラウザで動く！学習用コンパイラ　<a href="https://boletales.github.io/usocomp/">usocomp</a></h3>
         <img src="./usocomp_wasm.png">
         <ul>
-          <li>repo: <a href="https://github.com/boletales/usocomp"> https://github.com/boletales/usocomp</a> </li>
           <li>CASL風のアセンブリを吐く手続き型言語のコンパイラ</li>
           <li>構造体・関数ポインタまで実装できた（開発が進むにつれ仕様がC言語に似てくるのはなぜ？）</li>
           <li>ゆくゆくはその手続き型言語を吐く関数型言語のコンパイラも開発したい</li>
           <li>GHC 9.10 で Wasm Backend の JavaScript FFI が使えるようになったのでブラウザに移植した</li>
+          <li>repo: <a href="https://github.com/boletales/usocomp"> https://github.com/boletales/usocomp</a> </li>
+          <li>技術要素：
+            <ul>
+              <li>本体：Haskell</li>
+              <li>Wasm版ブラウザ側：JS (browser_wasi_shim + monaco-editor)</li>
+            </ul>
+          </li>
         </ul>
       </div>
       
@@ -63,9 +74,17 @@
         <h3>分水嶺が見える地図　<a href="https://suikei-rs.fly.dev/">suikei-rs</a></h3>
         <img src="./suikei-rs.png">
         <ul>
-          <li>repo: <a href="https://github.com/boletales/suikei-rs">https://github.com/boletales/suikei-rs</a> </li>
           <li>自転車で山へ行くのが趣味なので、峠の正確な位置を知りたかった</li>
           <li>降った雨の行く先を色分けして表示できる</li>
+          <li>repo: <a href="https://github.com/boletales/suikei-rs">https://github.com/boletales/suikei-rs</a> </li>
+          <li>技術要素：
+            <ul>
+              <li>本体：Rust (rocket)</li>
+              <li>ブラウザ側：JS (leaflet)</li>
+              <li>利用データ：国土地理院 地理院タイル（地図・標高）</li>
+              <li>実行環境：<a href="https://fly.io">fly.io</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
       
@@ -76,6 +95,12 @@
           <li>URLを見ても答えのわからない場所当て答え合わせツール</li>
           <li>地球上に200mグリッドを作り、入ったマスの名前をハッシュ化。ただし、指定地点がマスの中心に来るようオフセットする。</li>
           <li>例題：「夜の底が白くなった。<a href="https://boletales.dev/dokohash.html?hash=1e9fb69641d5f6c80336ff490c0acd07&salt=TszD8apJcwGL&latoffset=0.000560&longoffset=-0.001055&size=100">信号所</a>に汽車が止まった。」</li>
+          <li>技術要素：
+            <ul>
+              <li>本体：JS (leaflet)</li>
+              <li>利用データ：OpenStreetMap</li>
+            </ul>
+          </li>
         </ul>
       </div>
 
@@ -84,11 +109,17 @@
         <img src="./pte4.png"><br>
         <img src="./pte5.png">
         <ul>
-          <li>repo: <a href="https://github.com/boletales/treeparser">https://github.com/boletales/treeparser</a> </li>
           <li>キーボードで見たままの操作ができるエディタ</li>
           <li>LaTeX出力対応</li>
           <li>これ絶対記号論理学を履修する前に作るべきだったと思う</li>
           <li>だいたいpurescriptでつくってたはず</li>
+          <li>repo: <a href="https://github.com/boletales/treeparser">https://github.com/boletales/treeparser</a> </li>
+          <li>技術要素：
+            <ul>
+              <li>描画：JS</li>
+              <li>内部の処理：PureScript（スタンドアロンで動作するライブラリだが、描画側にJSONだけ渡している）</li>
+            </ul>
+          </li>
         </ul>
       </div>
 
@@ -96,12 +127,19 @@
         <h3>記号でできた謎のアセンブリ　<a href="https://minus-at0-at0-1.netlify.app">minus-at0-at0-1</a></h3>
         <img src="./symasm.png">
         <ul>
-          <li>repo: <a href="https://github.com/boletales/symasm_public">https://github.com/boletales/symasm_public</a> </li>
           <li>表題のリンクはコードテストと提出がオンラインでできるサイト</li>
           <li>制作者の素性を伏せ、わずかなヒント以外ほとんど言語仕様に関する情報を与えずに友人たちにばらまいたところ、一人だけ本気で解いてくれて感動した</li>
           <li>リポジトリは解答例を書くためのアセンブリ生成器のものである</li>
           <li>動的計画法まで出題するつもりだったので、ヒープとスタックを持ち関数を取り扱えてまともに手続き型プログラミングができるようになるDSLをpurescriptで書いた</li>
           <li>制作期間のほとんどはアセンブリ生成器の実装に費やした</li>
+          <li>repo: <a href="https://github.com/boletales/symasm_public">https://github.com/boletales/symasm_public</a> </li>
+          <li>技術要素：
+            <ul>
+              <li>提出用サイト：JS（ほぼ中身なし。言語の仕様も明かしたくなかったのでインタプリタ等はサイト上にない）</li>
+              <li>インタプリタ・採点サーバー：Google App ScriptのHTTP API</li>
+              <li>アセンブラ自動生成器：PureScript</li>
+            </ul>
+          </li>
         </ul>
       </div>
       
@@ -109,11 +147,16 @@
         <h3>直観主義命題論理の自動証明器　<a href="https://github.com/boletales/ipc-hs">ipc-hs</a></h3>
         <img src="./ipc-hs.png">
         <ul>
-          <li>repo: <a href="https://github.com/boletales/ipc-hs"> https://github.com/boletales/ipc-hs</a> </li>
           <li>Rustでおなじことをしていた友人に触発され、Haskellを使って速度で勝つことを目標に書いた</li>
           <li>最終的に1000倍の速度差をつけて勝った</li>
           <li>パフォーマンスの改善に最も有効なのは、アルゴリズムの改善である（あたりまえ）</li>
           <li>SPECIALIZEプラグマとmtl-style最高！</li>
+          <li>repo: <a href="https://github.com/boletales/ipc-hs"> https://github.com/boletales/ipc-hs</a> </li>
+          <li>技術要素：
+            <ul>
+              <li>本体：Haskell</li>
+            </ul>
+          </li>
         </ul>
       </div>
     </body>
